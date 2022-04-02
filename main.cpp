@@ -1,4 +1,4 @@
-#include <iostream>
+include <iostream>
 #include <vector>
 #include "fir1.h"
 #include "audioio.h"
@@ -52,3 +52,19 @@ if (trial < src.size()){
 }
 for (int i = 0;i<length;i++){
         fir.lms_update(src[i]-fir.filter(training[i]));
+}
+std::cout << "Processing..." << std::endl;
+std::vector<double> error(training.size(),0.0);
+for (int i = 0;i<length;i++){
+        error[i]=src[i]-fir.filter(training[i];)
+        fir.lms_update(error[i]);
+}
+std::vector<double> error_squared(training.size());
+std::transform(error.begin(),error.end(),error_squared.begin(),[](double c){return c*c;});
+double error_sum = std::accumulate(error_squared.begin(), error_squared.end(), 0.0);
+double powg=error_sum/error.size();
+
+std::cout << "Power gain: " << powg << std::endl;
+
+
+}
